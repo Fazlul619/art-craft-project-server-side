@@ -32,6 +32,34 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/addCraftItems/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await craftCollection.findOne(query);
+      res.send(result);
+    });
+    app.put("/addCraftItems/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedCraft = req.body;
+      const Craft = {
+        $set: {
+          imageUrl: updatedCraft.imageUrl,
+          itemName: updatedCraft.itemName,
+          subcategoryName: updatedCraft.subcategoryName,
+          shortDescription: updatedCraft.shortDescription,
+          price: updatedCraft.price,
+          rating: updatedCraft.rating,
+          customizationData: updatedCraft.customizationData,
+          processingTime: updatedCraft.processingTime,
+          StockData: updatedCraft.StockData,
+        },
+      };
+      const result = await craftCollection.updateOne(filter, Craft, options);
+      res.send(result);
+    });
+
     app.post("/addCraftItems", async (req, res) => {
       const newCraftItem = req.body;
       console.log(newCraftItem);
