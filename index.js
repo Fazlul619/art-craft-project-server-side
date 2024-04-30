@@ -31,6 +31,23 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // new data code
+
+    await client.connect();
+    const artCraftCollection = client
+      .db("craftDB")
+      .collection("Art & Craft Categories Section");
+
+    app.get("/artCraftItems", async (req, res) => {
+      try {
+        const cursor = artCraftCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
 
     app.get("/addCraftItems/:id", async (req, res) => {
       const id = req.params.id;
