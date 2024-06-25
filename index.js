@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+
     const craftCollection = client.db("craftDB").collection("craft");
     app.get("/addCraftItems", async (req, res) => {
       const cursor = craftCollection.find();
@@ -33,7 +33,6 @@ async function run() {
     });
     // new data code
 
-    await client.connect();
     const artCraftCollection = client
       .db("craftDB")
       .collection("Art & Craft Categories Section");
